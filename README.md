@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="DarkAIas Neural Network Banner" width="100%">
+</p>
+
 <h1 align="center">🛡️ Private-RAG-in-a-Box V2</h1>
 
 <p align="center">
