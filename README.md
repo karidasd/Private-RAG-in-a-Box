@@ -15,7 +15,19 @@ Companies and individuals are terrified of uploading sensitive documents (financ
 - **Backend:** Python (FastAPI + LangChain)
 - **Frontend:** Python (Streamlit)
 
-## 🚀 Quick Start (1-Click Install)
+## 🚀 Live Demo (100% Free Cloud GPU)
+
+Don't want to install Docker? You can run the entire Private RAG system on a free Google GPU in the cloud.
+
+<a href="https://colab.research.google.com/github/karidasd/Private-RAG-in-a-Box/blob/main/Colab_Demo.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+1. Click the badge above to open the Colab notebook.
+2. Click **Runtime -> Run all** (or `Ctrl+F9`).
+3. Scroll to the bottom and click the generated LocalTunnel link to access the Premium Chat UI live on the web!
+
+---
+
+## 💻 Local Quick Start (Docker)
 
 Make sure you have [Docker](https://docs.docker.com/get-docker/) installed. Then run:
 
