@@ -7,3 +7,5 @@ chromadb==0.5.3
 pypdf==4.2.0
 sqlalchemy==2.0.31
 duckduckgo-search==6.1.7
+beautifulsoup4==4.12.3
+langchain-experimental==0.0.62

@@ -5,9 +5,9 @@ import uuid
 
 API_URL = os.getenv("API_URL", "http://backend:8000")
 
-st.set_page_config(page_title="DarkAIs Private RAG V2", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="DarkAIs Private RAG V3", page_icon="🛡️", layout="wide")
 
-# Custom CSS for Premium Look
+# Custom CSS
 st.markdown("""
 <style>
     .stApp { background-color: #0E1117; color: #C9D1D9; }
@@ -22,41 +22,67 @@ st.markdown("""
 
 st.markdown("""
 <div class="glass-title">
-    <h1 style='margin-bottom: 0;'>🛡️ DarkAIs Private RAG V2</h1>
-    <p style='color: #8B949E; font-size: 1.1rem;'>Enterprise-Grade Local AI with Agentic Search & Citations.</p>
+    <h1 style='margin-bottom: 0;'>🛡️ DarkAIs Private RAG V3</h1>
+    <p style='color: #8B949E; font-size: 1.1rem;'>Semantic Chunking • Web URL Ingestion • Vision RAG (Llava) • Citations</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Session Management
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
-# Sidebar
 with st.sidebar:
     st.image("https://img.icons8.com/fluency/96/000000/artificial-intelligence.png", width=60)
     st.title("Control Panel")
     
     st.header("🧠 1. Select Model")
-    selected_model = st.selectbox("LLM Engine", ["llama3", "mistral", "phi3"], help="Llama3 is default. If you select Mistral/Phi3, Ollama will download it automatically!")
+    selected_model = st.selectbox("LLM Engine", ["llama3", "mistral", "phi3", "llava"], help="Llama3 is default. Llava is for Vision RAG.")
     
     st.markdown("---")
     st.header("📂 2. Knowledge Base")
-    uploaded_file = st.file_uploader("Drop PDF here", type=["pdf"], label_visibility="collapsed")
     
-    if st.button("🚀 Ingest Document"):
-        if uploaded_file is not None:
-            with st.spinner("Processing Document..."):
-                files = {"file": (uploaded_file.name, uploaded_file, "application/pdf")}
-                try:
-                    response = requests.post(f"{API_URL}/upload", files=files)
-                    if response.status_code == 200:
-                        st.success(f"✅ {response.json().get('message')}")
-                    else:
-                        st.error(f"❌ Error: {response.text}")
-                except Exception as e:
-                    st.error("❌ Connection failed.")
-        else:
-            st.warning("⚠️ Please upload a PDF first.")
+    tab1, tab2, tab3 = st.tabs(["📄 PDF", "🌐 URL", "👁️ Image"])
+    
+    with tab1:
+        uploaded_pdf = st.file_uploader("Drop PDF", type=["pdf"], label_visibility="collapsed")
+        if st.button("🚀 Ingest PDF"):
+            if uploaded_pdf:
+                with st.spinner("Processing Semantic Chunks..."):
+                    files = {"file": (uploaded_pdf.name, uploaded_pdf, "application/pdf")}
+                    try:
+                        res = requests.post(f"{API_URL}/upload", files=files)
+                        st.success(res.json().get('message')) if res.status_code == 200 else st.error("Error")
+                    except Exception:
+                        st.error("Connection failed.")
+            else:
+                st.warning("Upload a PDF first.")
+                
+    with tab2:
+        url_input = st.text_input("Enter Website URL", placeholder="https://en.wikipedia.org/wiki/AI")
+        if st.button("🚀 Ingest URL"):
+            if url_input:
+                with st.spinner("Scraping and Chunking URL..."):
+                    try:
+                        res = requests.post(f"{API_URL}/ingest-url", data={"url": url_input})
+                        st.success(res.json().get('message')) if res.status_code == 200 else st.error("Error")
+                    except Exception:
+                        st.error("Connection failed.")
+            else:
+                st.warning("Enter a URL first.")
+                
+    with tab3:
+        st.info("Upload an image and switch model to 'llava' to ask questions about it.")
+        uploaded_img = st.file_uploader("Drop Image", type=["jpg", "png", "jpeg"], label_visibility="collapsed")
+        if st.button("🚀 Load Image"):
+            if uploaded_img:
+                with st.spinner("Loading Image..."):
+                    files = {"file": (uploaded_img.name, uploaded_img, "image/jpeg")}
+                    try:
+                        res = requests.post(f"{API_URL}/ingest-image", files=files)
+                        st.success(res.json().get('message')) if res.status_code == 200 else st.error("Error")
+                    except Exception:
+                        st.error("Connection failed.")
+            else:
+                st.warning("Upload an image first.")
             
     st.markdown("---")
     st.header("💬 3. Chat Session")
@@ -65,7 +91,6 @@ with st.sidebar:
         st.session_state.session_id = str(uuid.uuid4())
         st.rerun()
 
-# Load History
 messages = []
 try:
     history_res = requests.get(f"{API_URL}/history/{st.session_state.session_id}")
@@ -75,9 +100,8 @@ except:
     pass
 
 if not messages:
-    messages = [{"role": "assistant", "content": "Welcome! Upload a document on the left, or ask me anything. If I don't know it, I will automatically search the web (Agentic Fallback)!", "citations": None}]
+    messages = [{"role": "assistant", "content": "Welcome to V3! I can now read PDFs (with Semantic Chunking), scrape Web URLs, and analyze Images (if you select Llava). What do you want to do?", "citations": None}]
 
-# Display chat messages
 for msg in messages:
     avatar = "🤖" if msg["role"] == "assistant" else "🧑‍💻"
     with st.chat_message(msg["role"], avatar=avatar):
@@ -85,7 +109,6 @@ for msg in messages:
         if msg.get("citations") and msg["citations"] != "Error" and msg["citations"] != "":
             st.markdown(f"<div class='citation-badge'>📚 Sources: {msg['citations']}</div>", unsafe_allow_html=True)
 
-# Chat Input
 if prompt := st.chat_input("Ask a question..."):
     with st.chat_message("user", avatar="🧑‍💻"):
         st.markdown(prompt)
@@ -94,22 +117,15 @@ if prompt := st.chat_input("Ask a question..."):
         message_placeholder = st.empty()
         with st.spinner(f"Analyzing with {selected_model}..."):
             try:
-                payload = {
-                    "message": prompt,
-                    "session_id": st.session_state.session_id,
-                    "model": selected_model
-                }
+                payload = {"message": prompt, "session_id": st.session_state.session_id, "model": selected_model}
                 res = requests.post(f"{API_URL}/chat", json=payload)
                 if res.status_code == 200:
                     data = res.json()
-                    answer = data.get("response", "No response.")
-                    citations = data.get("citations", "")
+                    answer, citations = data.get("response", "No response."), data.get("citations", "")
                 else:
-                    answer = f"Error: {res.text}"
-                    citations = ""
-            except Exception as e:
-                answer = "API Connection failed."
-                citations = ""
+                    answer, citations = f"Error: {res.text}", ""
+            except Exception:
+                answer, citations = "API Connection failed.", ""
         
         message_placeholder.markdown(answer)
         if citations and citations != "Error" and citations != "":

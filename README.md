@@ -2,17 +2,20 @@
   <img src="assets/banner.png" alt="DarkAIas Neural Network Banner" width="100%">
 </p>
 
-<h1 align="center">🛡️ Private-RAG-in-a-Box V2</h1>
+<h1 align="center">🛡️ Private-RAG-in-a-Box V3</h1>
 
 <p align="center">
   <strong>1-Click Local ChatGPT for your Private Documents. 100% Offline. Zero Data Leaks.</strong><br>
-  <em>Now with Agentic Web Search, Multi-Model Support, and Source Citations!</em>
+  <em>Now with Vision RAG, URL Ingestion, and Semantic Chunking!</em>
 </p>
 
-## ✨ What's New in V2?
+## ✨ What's New in V3?
+- **👁️ Vision RAG (Llava):** Upload images (JPG/PNG) and chat about them! The local `llava` model acts as your eyes.
+- **🌐 Web URL Ingestion:** Don't have a PDF? Paste any website URL, and the system will scrape and memorize it instantly.
+- **🧠 Semantic Chunking:** Upgraded from standard character-splitting to AI-driven Semantic Chunking for much higher accuracy.
 - **📄 Source Citations:** AI answers now include the exact PDF file and page number they were sourced from. No more hallucinations.
-- **🌐 Agentic Web Fallback:** If the answer isn't in your PDF, the AI automatically searches the internet (via DuckDuckGo) to find it.
-- **🧠 Multi-Model Selector:** Switch instantly between `Llama-3`, `Mistral`, and `Phi-3` directly from the UI. Models download automatically in the background!
+- **🕵️ Agentic Web Fallback:** If the answer isn't in your PDF/URL, the AI automatically searches the internet (via DuckDuckGo) to find it.
+- **⚙️ Multi-Model Selector:** Switch instantly between `Llama-3`, `Mistral`, `Phi-3`, and `Llava` directly from the UI. Models download automatically in the background!
 - **💾 Chat History:** Your conversations are now securely saved in a local SQLite database.
 - **🎨 Premium UI:** Glassmorphism design, Dark Mode, and live status metrics.
 
