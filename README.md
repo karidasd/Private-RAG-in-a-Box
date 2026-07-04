@@ -1,0 +1,38 @@
+<h1 align="center">🛡️ Private-RAG-in-a-Box</h1>
+
+<p align="center">
+  <strong>1-Click Local ChatGPT for your Private Documents. 100% Offline. Zero Data Leaks.</strong>
+</p>
+
+## 📌 Why this exists?
+Companies and individuals are terrified of uploading sensitive documents (financials, medical records, proprietary code) to OpenAI or Anthropic. 
+
+**Private-RAG-in-a-Box** solves this by giving you a production-ready, fully local RAG (Retrieval-Augmented Generation) pipeline that runs entirely on your own hardware. No API keys required.
+
+## 🏗️ Architecture
+- **LLM Engine:** [Ollama](https://ollama.com/) (Running `Llama-3` and `nomic-embed-text`)
+- **Vector Database:** [ChromaDB](https://www.trychroma.com/) (Persistent local storage)
+- **Backend:** Python (FastAPI + LangChain)
+- **Frontend:** Python (Streamlit)
+
+## 🚀 Quick Start (1-Click Install)
+
+Make sure you have [Docker](https://docs.docker.com/get-docker/) installed. Then run:
+
+```bash
+git clone https://github.com/karidasd/Private-RAG-in-a-Box.git
+cd Private-RAG-in-a-Box
+docker-compose up --build
+```
+
+**That's it!** The system will automatically download the LLM models on first run. 
+Once it's ready, open your browser:
+👉 **[http://localhost:8501](http://localhost:8501)**
+
+## 💡 How to Use
+1. Open the UI and upload your PDF files on the left sidebar.
+2. Click **"Ingest Document"**. The backend will chunk and embed the text locally into the Vector Database.
+3. Chat with your documents in the main window! The local Llama-3 model will answer based *only* on the context of your files.
+
+---
+*Created by [Dimitris Karydas](https://github.com/karidasd) - Senior AI Engineer.*

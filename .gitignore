@@ -1,0 +1,6 @@
+data/chroma_db/
+data/ollama/
+data/temp/
+__pycache__/
+*.pyc
+.env
