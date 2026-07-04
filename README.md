@@ -1,8 +1,16 @@
-<h1 align="center">🛡️ Private-RAG-in-a-Box</h1>
+<h1 align="center">🛡️ Private-RAG-in-a-Box V2</h1>
 
 <p align="center">
-  <strong>1-Click Local ChatGPT for your Private Documents. 100% Offline. Zero Data Leaks.</strong>
+  <strong>1-Click Local ChatGPT for your Private Documents. 100% Offline. Zero Data Leaks.</strong><br>
+  <em>Now with Agentic Web Search, Multi-Model Support, and Source Citations!</em>
 </p>
+
+## ✨ What's New in V2?
+- **📄 Source Citations:** AI answers now include the exact PDF file and page number they were sourced from. No more hallucinations.
+- **🌐 Agentic Web Fallback:** If the answer isn't in your PDF, the AI automatically searches the internet (via DuckDuckGo) to find it.
+- **🧠 Multi-Model Selector:** Switch instantly between `Llama-3`, `Mistral`, and `Phi-3` directly from the UI. Models download automatically in the background!
+- **💾 Chat History:** Your conversations are now securely saved in a local SQLite database.
+- **🎨 Premium UI:** Glassmorphism design, Dark Mode, and live status metrics.
 
 ## 📌 Why this exists?
 Companies and individuals are terrified of uploading sensitive documents (financials, medical records, proprietary code) to OpenAI or Anthropic. 

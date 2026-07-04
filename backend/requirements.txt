@@ -5,3 +5,5 @@ langchain==0.2.6
 langchain-community==0.2.6
 chromadb==0.5.3
 pypdf==4.2.0
+sqlalchemy==2.0.31
+duckduckgo-search==6.1.7
